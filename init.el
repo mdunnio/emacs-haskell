@@ -16,21 +16,24 @@
 
 ;; packages
 (use-package solarized-theme :ensure t)
-(use-package company :ensure t)
-(add-hook 'after-init-hook 'global-company-mode) ;; TODO: get this to work as a normal hook
+(use-package company
+  :ensure t
+  :config (global-company-mode))		;; all buffers use company mode
 (use-package helm
   :ensure t
-  :config (helm-mode 1)
+  :config (helm-mode 1)				;; start helm mode automatically
   :bind
-  ("M-x" . helm-M-x)
-  ("C-x C-f" . helm-find-files))
+  ("M-x" . helm-M-x)				;; use helm for all M-x commands
+  ("C-x C-f" . helm-find-files))		;; use helm for finding files
 (use-package flycheck
   :ensure t
-  :config (global-flycheck-mode))
-(use-package ripgrep :ensure t)   ;; ag is inadequate
-(use-package exec-path-from-shell ;; environment variables are the same between emacs and shell
+  :config (global-flycheck-mode))		;; all buffers use flycheck mode
+(use-package ripgrep
   :ensure t
-  :config (exec-path-from-shell-initialize))
+  :bind ("C-c r" . ripgrep-regexp))		;; quick, easy to use keybinding for ripgrep
+(use-package exec-path-from-shell		;; environment variables are the same between emacs and your shell
+  :ensure t
+  :config (exec-path-from-shell-initialize))	;; sets $MANPATH, $PATH, and exec-path from your shell
 
 ;; customization
 (load-theme `solarized-dark t)  ;; turn on solarized-dark by default
@@ -42,7 +45,6 @@
 (setq inhibit-startup-screen t) ;; remove startup screen
 
 ;; custom elisp files
-(add-to-list `load-path "~/.emacs.d/elisp/")
 (load "~/.emacs.d/elisp/haskell-init.el")
 
 ;; ---------------- auto-generated ---------------------
